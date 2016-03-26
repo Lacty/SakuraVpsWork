@@ -31,11 +31,12 @@ main()
  bind(sock0, (struct sockaddr *)&addr, sizeof(addr));
 
  listen(sock0, 5);
-
- while (1) {
+ while(1) {
    len = sizeof(client);
    sock = accept(sock0, (struct sockaddr *)&client, (socklen_t*)&len);
    write(sock, "HELLO", 5);
+ 
+   printf("accept connection ort = %d\n", ntohs(client.sin_port));  
    
    close(sock);
  }
