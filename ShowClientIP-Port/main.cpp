@@ -1,11 +1,12 @@
 
 #include <iostream>
+#include <stdio.h>
 #include <string>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-
 #include <sys/fcntl.h>
+#include <arpa/inet.h>
 #include <netdb.h>
 
 int
@@ -35,8 +36,9 @@ main()
    len = sizeof(client);
    sock = accept(sock0, (struct sockaddr *)&client, (socklen_t*)&len);
    write(sock, "HELLO", 5);
- 
-   printf("accept connection ort = %d\n", ntohs(client.sin_port));  
+
+   std::cout << "connect from : " << inet_ntoa(client.sin_addr) << std::endl;
+   std::cout << "        port : " << ntohs(client.sin_port) << std::endl; 
    
    close(sock);
  }
