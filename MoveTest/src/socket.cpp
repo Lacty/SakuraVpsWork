@@ -176,10 +176,14 @@ bool Socket::send(const std::string &data) {
 
 // recv data
 // return std::string
+// ----------------------------------------------------
+// FIX ME: can't use std::move in clang 3.1 with c++11
+// ----------------------------------------------------
 std::string Socket::recv() {
   std::string data;
   recv(data);
-  return std::move(data);
+  return data;
+  //return std::move(data);
 }
 
 
