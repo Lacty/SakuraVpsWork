@@ -35,7 +35,10 @@ main()
  while(1) {
    len = sizeof(client);
    sock = accept(sock0, (struct sockaddr *)&client, (socklen_t*)&len);
-   write(sock, "HELLO", 5);
+   std::string str = "{\"name\":\"sacchy\"}";
+   write(sock, str.c_str(), str.length());
+
+   std::cout << str.c_str() << str.size() << "," << str.length() << std::endl;  
 
    std::cout << "connect from : " << inet_ntoa(client.sin_addr) << std::endl;
    std::cout << "        port : " << ntohs(client.sin_port) << std::endl; 
