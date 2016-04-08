@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "socket.hpp"
+#include "picojson.h"
 
 
 int main() {
@@ -12,11 +13,22 @@ int main() {
   server.create();
   server.bind(12345);
   server.listen();
-  server.accept(client);
 
-  std::string str = "move 0, jump 1";
+  while(1) {
+    //server.listen();
+    server.accept(client);
+
+    std::string data;
   
-  client << str;
+    client >> data;
+
+    picojson::value val;
+    picojson::parse(val, data);
+    picojson::object obj = val.get<picojson::object>();
+
+    std::cout << obj["posx"].get<double>() << std::endl;
+    std::cout << obj["posy"].get<double>() << std::endl;
+  }
 
   std::cout << "end program" << std::endl; 
 }
