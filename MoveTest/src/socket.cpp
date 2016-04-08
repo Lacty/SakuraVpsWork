@@ -50,9 +50,13 @@ bool Socket::bind(const int port) {
   addr_.sin_port        = htons(port);
   addr_.sin_addr.s_addr = INADDR_ANY;
   
+  // flash TIME_WAIT
+  bool yes = true;
+  setsockopt(sock_, SOL_SOCKET, SO_REUSEADDR, (const char*)&yes, sizeof(yes));
+
   // report err is can not bind sock
   if (-1 == ::bind(sock_, (sockaddr*)&addr_, sizeof(addr_))) {
-    assert(!"Socket::bin() err");
+    assert(!"Socket::bind() err");
     closeSock(sock_);
     return false;
   }
