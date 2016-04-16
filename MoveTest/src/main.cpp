@@ -11,7 +11,7 @@ int main() {
   Socket client;
 
   server.create();
-  server.bind(12345);
+  server.bind(54321);
   server.listen();
 
   while(1) {
@@ -25,8 +25,7 @@ int main() {
     picojson::parse(val, data);
     picojson::object obj = val.get<picojson::object>();
 
-    std::cout << "pos.x = " << obj["posx"].get<double>() << std::endl;
-    std::cout << "pos.y = " << obj["posy"].get<double>() << std::endl;
+    client << data;
   }
 
   std::cout << "end program" << std::endl; 
