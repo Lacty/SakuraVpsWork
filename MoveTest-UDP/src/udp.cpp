@@ -30,12 +30,14 @@ void Udp::createSocket() {
 }
 
 void Udp::initAddr(u_short port, const std::string& ip) {
+  close(sock_);
+  memset(&addr_, 0, sizeof(addr_));
   createSocket();
 
   port_ = port;
   ip_ = ip;
 
-  bool is_host = ip_.size() <= 0;
+  bool is_host = ip_.empty();
 
   addr_.sin_family = AF_INET;
   addr_.sin_port = htons(port_);
@@ -45,11 +47,14 @@ void Udp::initAddr(u_short port, const std::string& ip) {
     ? INADDR_ANY
     : inet_addr(ip_.c_str());
 
+  int on = 1;
+  setsockopt(sock_, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
+
   // named the socket(bind)
   if (is_host) {
     int res = bind(sock_, (sockaddr*)&addr_, sizeof(addr_));
     if (res < 0) {
-      std::cout << "err bind" << std::endl;
+      std::cout << res << ": err bind" << std::endl;
     }
   }
 }
@@ -75,7 +80,7 @@ std::string Udp::recieve() {
 }
 
 void Udp::send(const std::string& data) {
-  int nwrite = sendto(sock_, &data[0], (int)data.size(), 0, (sockaddr*)&addr_, sizeof(addr_));
+  int nwrite = sendto(sock_, data.c_str(), data.length(), 0, (sockaddr*)&addr_, sizeof(addr_));
 
   // err check
   if (nwrite <= 0) {
