@@ -51,7 +51,7 @@ bool Socket::bind(const int port) {
   addr_.sin_addr.s_addr = INADDR_ANY;
   
   // flash TIME_WAIT
-  int yes = 1;
+  bool yes = true;
   setsockopt(sock_, SOL_SOCKET, SO_REUSEADDR, (const char*)&yes, sizeof(yes));
 
   // report err is can not bind sock

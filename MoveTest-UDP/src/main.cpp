@@ -28,24 +28,33 @@ int main() {
 }
 
 void* recv_th(void* pParam) {
-  while(1) {
+  //while(1) {
     Udp udp;
-    udp.initAddr(54321, "");
-    std::string data = udp.recieve();
+    udp.initAddr(54321, "192.168.10.179");
+    udp.send("hoge");
+    //std::string data = udp.recieve();
 
-    std::cout << data << std::endl;
+    //std::cout << data << std::endl;
     
-    picojson::value val;
-    picojson::parse(val, data);
-    picojson::object obj = val.get<picojson::object>();
-    posX = obj["posx"].get<double>();
-    posY = obj["posy"].get<double>();
+    //picojson::value val;
+    //picojson::parse(val, data);
+    //picojson::object obj = val.get<picojson::object>();
+    //posX = obj["posx"].get<double>();
+    //posY = obj["posy"].get<double>();
+    
+    //int sock;
+    //sockaddr_in addr;
 
-    //if (val.serialize()) continue;
-    Udp udd;
-    udd.initAddr(12345, "192.168.3.2");
-    udd.send(val.serialize());
-  }
+  //sock = socket(AF_INET, SOCK_DGRAM, 0);
+
+  //addr.sin_family = AF_INET;
+  //addr.sin_port = htons(54321);
+  //addr.sin_addr.s_addr = inet_addr("192.168.10.179");
+
+  //int res = sendto(sock, val.serialize().c_str(), val.serialize().size(), 0, (sockaddr*)&addr, sizeof(addr));
+  //std::cout << val.serialize().c_str() << " : " << val.serialize().size() << " : " << res << std::endl;
+  //close(sock);
+  //}
 }
 
 void* send_th(void* pParam) {

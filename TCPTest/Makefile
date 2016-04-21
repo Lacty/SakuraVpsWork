@@ -4,7 +4,7 @@ sock    = debug/sock.o
 program = debug/program.out
 objs    = $(main) $(sock)
 
-opt      = -Wall -std=c++11 -pthread
+opt      = -Wall -std=c++11
 compiler = clang++
 
 $(program): $(objs)
